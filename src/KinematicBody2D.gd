@@ -13,17 +13,24 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_right"): 
 		motion.x = SPEED
 		
+		#accessing child node would be with $
+		$Sprite.flip_h = false
+		$Sprite.play("Run")
+		
 	elif Input.is_action_pressed("ui_left"):
 		motion.x = -SPEED
+		$Sprite.flip_h = true
+		$Sprite.play("Run")
 		
 	else:
 		motion.x = 0
+		$Sprite.play("Idle")
 		
-	if is_on_floor():
-		print("On floor.")
-		if Input.is_action_just_pressed("ui_up"):
+	if is_on_floor(): 								#on the ground
+		if Input.is_action_just_pressed("ui_up"): 
 			motion.y = JUMP_HEIGHT 
-			
+	else: 											#in the air
+		$Sprite.play("Jump")
 #docs mention 2nd argument of func move_and_slide for allowing jump in vector. Update motion with the return of the whole functon to stop from continuously adding gravity.
 	motion = move_and_slide(motion, UP) 
 	print(motion)
